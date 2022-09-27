@@ -4,67 +4,67 @@
 #include <time.h>
 
 void listar(unsigned char armarios) {
-  unsigned char posicao;
+  unsigned char pos;
   for (int i = 0; i < 8; i++) {
-    posicao = (unsigned char)pow(2, i);
-    printf((armarios & posicao) ? " x " : " %d ", i + 1);
+    pos = (unsigned char)pow(2, i);
+    printf((armarios & pos) ? " x " : " %d ", i + 1);
   }
   puts("");
 }
 
 unsigned char ocupar(unsigned char armarios) {
-  unsigned char ocupacao;
+  unsigned char ocup;
   do {
-    ocupacao = rand() % 8;
-    ocupacao = (unsigned char)pow(2, ocupacao);
-  } while ((ocupacao | armarios) == armarios);
-  armarios = ocupacao | armarios;
+    ocup = rand() % 8;
+    ocup = (unsigned char)pow(2, ocup);
+  } while ((ocup | armarios) == armarios);
+  armarios = ocup | armarios;
   return armarios;
 }
 
-unsigned char desocupar(unsigned char armarios, unsigned char remover) {
-  armarios &= ~(unsigned char)pow(2, remover - 1);
+unsigned char desocupar(unsigned char armarios, unsigned char remov) {
+  armarios &= ~(unsigned char)pow(2, remov - 1);
   return armarios;
 }
 
 int main(void) {
-  unsigned char armario = 0, escolha, tirar;
+  unsigned char armario = 0, esc, tir;
   do {
     listar(armario);
     srand(time(NULL));
-    printf("Insira o valor do armario: %hhu\n", armario);
-    puts("1- Ocupar Armario.");
-    puts("2- Desocupar Armario.");
-    puts("3- Sair.");
+    printf("Insira o valor do armário: %hhu\n", armario);
+    puts("1- Ocupar armário");
+    puts("2- Desocupar armário");
+    puts("3- Sair");
     printf("Escolha: ");
-    scanf("%hhu", &escolha);
-    switch (escolha) {
+    scanf("%hhu", &esc);
+    switch (esc) {
     case 1:
       if (armario == 255) {
-        puts("Os armarios estao todos ocupados");
+        puts("Os armários estao todos ocupados!");
       } else {
         armario = ocupar(armario);
       }
       break;
     case 2: 
-      printf("\nQual armario que deseja desocupar\n");
+      printf("\nQual armário que deseja desocupar?\n");
       printf("Escolha: ");
-      scanf("%hhu", &tirar);
-      if ((armario | (unsigned char)pow(2, tirar - 1)) == armario) {
-        armario = desocupar(armario, tirar);
+      scanf("%hhu", &tir);
+      if ((armario | (unsigned char)pow(2, tir - 1)) == armario) {
+        armario = desocupar(armario, tir);
       } else {
-        printf("O armario %d ja se encontra desocupado\n", tirar);
+        printf("O armário %d já se encontra desocupado\n", tir);
       }
       printf("");
       break;
     case 3:
       system("cls"); 
-      puts("\n\nPrograma encerrado");
+      puts("\n\nPrograma encerrado!");
       break;
     default:
       puts("\nOperacao invalida!");
       puts("");
     }
-  } while (escolha != 3);
+  } while (esc != 3);
   return 0;
 }
